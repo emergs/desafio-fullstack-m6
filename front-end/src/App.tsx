@@ -1,11 +1,13 @@
 import reactLogo from './assets/react.svg'
+import AppRoutes from './routes'
+import { BrowserRouter } from "react-router-dom"
 
 function App() {
 
   return (
-    <div className="App">
-      <h1>Inicio</h1>
-    </div>
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
   )
 }
 

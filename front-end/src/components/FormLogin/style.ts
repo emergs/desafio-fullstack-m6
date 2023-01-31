@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-
 const FormStyle = styled.form`
   background-color: white;
   width: 100%;
@@ -18,7 +17,6 @@ const FormStyle = styled.form`
     align-items: center;
   }
 `
-
 
 const DivLabelInput = styled.div`
   width: 100%;

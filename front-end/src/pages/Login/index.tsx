@@ -1,11 +1,12 @@
+import Content from "../../components/Content"
 import FormLogin from "../../components/FormLogin"
 import { ContentLogin } from "./style"
 
 const Login = () => {
   return (
-    <ContentLogin>
+    <Content>
       <FormLogin />
-    </ContentLogin>
+    </Content>
   )
 }
 

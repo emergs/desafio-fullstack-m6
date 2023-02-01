@@ -1,9 +1,15 @@
+import Header from "../Header"
 import { ButtonForm, DivLabelInput, FormStyle } from "./style"
+import { useNavigate } from 'react-router-dom'
+import Form from "../Form"
 
 const FormLogin = () => {
+
+  const navigate = useNavigate()
+
   return (
-    <FormStyle>
-      <h1>Login</h1>
+    <Form>
+      <Header>Login</Header>
       <DivLabelInput>
         <label>User</label>
         <input placeholder="User"></input>
@@ -15,10 +21,10 @@ const FormLogin = () => {
       <ButtonForm>
         <span>Manter conectado</span>
         <span>Esqueceu a senha?</span>
-        <button>Logar</button>
+        <button className="button-default">Logar</button>
       </ButtonForm>
-      <span>Não possui cadastro? Inscreva-se <a>aqui</a></span>
-    </FormStyle>
+      <span>Não possui cadastro? Inscreva-se <button onClick={() => navigate('../register', { replace: true })}>aqui</button></span>
+    </Form>
   )
 }
 

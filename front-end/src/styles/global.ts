@@ -18,11 +18,13 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body{
+    height: 100vh;
     background-color: var(--color2);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-family: 'Barlow Condensed', sans-serif;
   }
+
 `
 
 export default GlobalStyles

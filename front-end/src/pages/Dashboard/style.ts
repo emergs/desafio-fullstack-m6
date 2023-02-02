@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
 const DashboardStyle = styled.div`
+  padding-bottom: 50px;
+
   div{
     display: flex;
     justify-content: space-between;
@@ -21,5 +23,18 @@ const DashboardStyle = styled.div`
   }
 `
 
+const ContentDashboard = styled.div`
+  height: 100%;
+  width: 100%;
+  max-width: 600px;
+  padding:20px;
+  padding-bottom: 50px;
 
-export { DashboardStyle }
+  .exit{
+    display: flex;
+    justify-content: flex-end;
+  }
+`
+
+
+export { DashboardStyle, ContentDashboard }

@@ -1,30 +1,51 @@
 import Header from "../Header"
 import { ButtonForm, DivLabelInput, FormStyle } from "./style"
 import { useNavigate } from 'react-router-dom'
-import Form from "../Form"
+import { FormStyled } from "../Form/style"
+import { useContext, useState } from "react"
+import { CustomerContext, ICustomerLogin } from "../../contexts/customer"
+import * as yup from 'yup';
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+
+const schema = yup.object({
+  email: yup.string().required('Digite o email').email('Digite um email válido'),
+  password: yup.string().required('Digite a sua senha')
+})
+
 
 const FormLogin = () => {
 
   const navigate = useNavigate()
 
+  const { customerLogin } = useContext(CustomerContext)
+
+  const { register, handleSubmit, formState: { errors } } = useForm<ICustomerLogin>({
+    resolver: yupResolver(schema)
+  })
+
   return (
-    <Form>
+    <FormStyled onSubmit={handleSubmit(customerLogin)}>
+      <button onClick={() => navigate('../dashboard', { replace: true })}>Dashboard</button>
       <Header>Login</Header>
       <DivLabelInput>
         <label>User</label>
-        <input placeholder="User"></input>
+        <input type="email" placeholder="Email" {...register('email')} />
+        <p>{errors.email?.message}</p>
+
       </DivLabelInput>
       <DivLabelInput>
         <label>Password</label>
-        <input placeholder="Password"></input>
+        <input type="password" placeholder="Password"  {...register('password')} />
+        <p>{errors.password?.message}</p>
       </DivLabelInput>
       <ButtonForm>
         <span>Manter conectado</span>
         <span>Esqueceu a senha?</span>
-        <button className="button-default">Logar</button>
+        <button type="submit" className="button-default">Logar</button>
       </ButtonForm>
       <span>Não possui cadastro? Inscreva-se <button onClick={() => navigate('../register', { replace: true })}>aqui</button></span>
-    </Form>
+    </FormStyled>
   )
 }
 

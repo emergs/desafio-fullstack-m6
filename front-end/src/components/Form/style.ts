@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const FormStyled = styled.div`
+const FormStyled = styled.form`
   background-color: var(--color5);
   width: 100%;
   height: 20rem;

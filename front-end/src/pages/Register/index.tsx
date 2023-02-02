@@ -1,5 +1,5 @@
 import Content from "../../components/Content"
-import Form from "../../components/Form"
+import { FormStyled } from "../../components/Form/style"
 import Header from "../../components/Header"
 import { useNavigate } from "react-router-dom"
 
@@ -9,7 +9,7 @@ const Register = () => {
 
   return (
     <Content>
-      <Form>
+      <FormStyled>
         <div className="header-register">
           <Header>Cadastro</Header>
           <button
@@ -35,7 +35,7 @@ const Register = () => {
         <div className="div-label-input">
           <button className="button-default">Cadastrar</button>
         </div>
-      </Form>
+      </FormStyled>
     </Content>
   )
 }

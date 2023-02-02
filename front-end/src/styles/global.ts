@@ -25,6 +25,12 @@ const GlobalStyles = createGlobalStyle`
     font-family: 'Barlow Condensed', sans-serif;
   }
 
+  #root{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
 `
 
 export default GlobalStyles

@@ -7,7 +7,9 @@ const ContentStyle = styled.main`
   justify-content: center;
   padding: 2rem;
   color: var(--color6);
-  height: 100vh;
+  height: 100%;
+  width: 100%;
+  max-width: 600px;
 `
 
 export { ContentStyle }

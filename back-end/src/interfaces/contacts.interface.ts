@@ -1,3 +1,5 @@
+import { ICustomer } from "./customer.interface"
+
 export interface IContactRequest {
   name: string
   email: string
@@ -9,7 +11,8 @@ export interface IContact {
   name: string
   email: string
   phone: string
-  date: Date
+  createdAt: Date,
+  customer: ICustomer
 }
 
 export interface IContactUpdate {

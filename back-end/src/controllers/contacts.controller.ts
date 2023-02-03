@@ -7,7 +7,8 @@ import deletContactService from "../services/contacts/deleteContact.service"
 
 const createContactController = async (req: Request, res: Response) => {
   const newContact = req.body
-  const contact = await createContactsService(newContact)
+  const customer = req.customer.id
+  const contact = await createContactsService(newContact, customer)
   return res.status(201).json(instanceToPlain(contact))
 }
 

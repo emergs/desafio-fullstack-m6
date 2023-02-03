@@ -4,7 +4,16 @@ import { AppError } from "../../errors/appError";
 
 const retriveCustomerService = async (id: string) => {
   const customerRepository = AppDataSource.getRepository(Customer)
-  const customer = await customerRepository.findOneBy({ id })
+  const customer = await customerRepository.find({
+    where: {
+      id: id
+    },
+    relations: {
+      contacts: true
+    }
+  })
+
+  console.log(customer)
 
   if (!customer) {
     throw new AppError("customer Not Found", 404);

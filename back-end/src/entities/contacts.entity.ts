@@ -19,6 +19,6 @@ export class Contacts {
   @CreateDateColumn()
   createdAt: Date
 
-  @ManyToOne(() => Customer, { eager: true })
-  customer: Customer
+  @ManyToOne(() => Customer, (customer) => customer.contacts, { eager: true })
+  customer: string | undefined
 }

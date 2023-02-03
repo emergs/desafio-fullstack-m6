@@ -76,9 +76,9 @@ const CustomerProvider = ({ children }: IChildren) => {
     function validateLogin() {
       toast.success('Login realizado com sucesso')
       navigate('../dashboard', { replace: true })
-      setCustomer(request.data.customer)
-      localStorage.setItem('@appDesafioFullStackM6TOKEN', JSON.stringify(request.data.token))
-      localStorage.setItem('@appDesafioFullStackM6USERID', JSON.stringify(request.data.customer.id))
+      setCustomer(request.data.customer.data)
+      localStorage.setItem('@appDesafioFullStackM6TOKEN', JSON.stringify(request.data.customer.token))
+      localStorage.setItem('@appDesafioFullStackM6USERID', JSON.stringify(request.data.customer.data.id))
     }
 
     function doNotValidateLogin() {
@@ -86,7 +86,7 @@ const CustomerProvider = ({ children }: IChildren) => {
     }
 
     const request = await api.post('/login', data)
-    console.log(request)
+    console.log(request.data)
     request.status === 200 ? validateLogin() : doNotValidateLogin()
   }
 
@@ -128,7 +128,7 @@ const CustomerProvider = ({ children }: IChildren) => {
   }
 
   return (
-    <CustomerContext.Provider value={{ customerLogin }}>
+    <CustomerContext.Provider value={{ customerLogin, customer }}>
       {children}
     </CustomerContext.Provider>
   )

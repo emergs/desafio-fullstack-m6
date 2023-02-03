@@ -9,6 +9,4 @@ class AppError extends Error {
   }
 }
 
-// const errors = new AppError()
-
 export { AppError }

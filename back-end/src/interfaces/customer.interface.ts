@@ -1,3 +1,5 @@
+import { IContact } from "./contacts.interface"
+
 export interface ICustomerRequest {
   name: string
   email: string
@@ -11,7 +13,15 @@ export interface ICustomer {
   email: string
   phone: string
   password: string
-  date: Date
+  createdAt: Date,
+  isActive: boolean,
+  contacts: IContact
+}
+
+export interface ICustomerDecoded {
+  id: string
+  email: string
+  phone: string
 }
 
 

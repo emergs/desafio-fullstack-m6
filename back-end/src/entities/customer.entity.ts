@@ -1,3 +1,4 @@
+import { Exclude } from "class-transformer"
 import { Entity, PrimaryColumn, Column, CreateDateColumn, OneToMany } from "typeorm"
 import { Contacts } from "./contacts.entity"
 
@@ -20,11 +21,12 @@ export class Customer {
   createdAt: Date
 
   @Column({ type: "varchar", length: 100 })
+  @Exclude()
   password: string
 
   @Column({ default: true })
   isActive: boolean
 
-  @OneToMany(() => Contacts, Contacts => Contacts.customer)
-  contacts: Contacts
+  @OneToMany(() => Contacts, contacts => contacts.customer)
+  contacts: Contacts[]
 }

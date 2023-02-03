@@ -5,7 +5,7 @@ import emailAlreadyRegisterMiddleware from "../middlewares/emailAlreadyRegister.
 
 const contactsRoutes = Router();
 
-contactsRoutes.post('', emailAlreadyRegisterMiddleware, createContactController);
+contactsRoutes.post('', validateTokenMiddleware, emailAlreadyRegisterMiddleware, createContactController);
 contactsRoutes.get('', validateTokenMiddleware, listContactsController);
 contactsRoutes.patch('/:id', validateTokenMiddleware, updateContactController);
 contactsRoutes.delete('/:id', validateTokenMiddleware, deleteContactController)

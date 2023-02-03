@@ -6,10 +6,10 @@ import api from "../../services/api";
 
 interface ICustomerContext {
   customerLogin: (data: ICustomerLogin) => void,
-  deleteCustomerStorage: ()=>void,
-  loadUser: ()=>void,
-  updateCustomer: ()=>void,
-  retriveProfile:()=>void,
+  deleteCustomerStorage: () => void,
+  loadUser: () => void,
+  updateCustomer: () => void,
+  retriveProfile: () => void,
   customer: ICustomer,
   loading: boolean,
 
@@ -49,28 +49,28 @@ const CustomerProvider = ({ children }: IChildren) => {
 
   const navigate = useNavigate()
 
-  useEffect(()=>{
+  useEffect(() => {
 
-  const loadUser = async ()=>{
-    const token = JSON.parse (localStorage.getItem('@appDesafioFullStackM6TOKEN') || '{}')
-    if(token){
-      
-      try {
-        api.defaults.headers.common.authorization = `Bearer ${token}`
-        const {data} = await api.get('/profile')
-        setCustomer(data)
-      } 
-      catch (error) {
-        console.error(error);
-        localStorage.removeItem('@appDesafioFullStackM6TOKEN')
-        localStorage.removeItem('@appDesafioFullStackM6USERID')
+    const loadUser = async () => {
+      const token = JSON.parse(localStorage.getItem('@appDesafioFullStackM6TOKEN') || '{}')
+      if (token) {
+
+        try {
+          api.defaults.headers.common.authorization = `Bearer ${token}`
+          const { data } = await api.get('/profile')
+          setCustomer(data)
+        }
+        catch (error) {
+          console.error(error);
+          localStorage.removeItem('@appDesafioFullStackM6TOKEN')
+          localStorage.removeItem('@appDesafioFullStackM6USERID')
+        }
       }
+      setLoading(false)
     }
-    setLoading(false)
-  }
 
-  loadUser()
-  },[count])
+    loadUser()
+  }, [count])
 
   const customerLogin = async (data: ICustomerLogin) => {
     function validateLogin() {
@@ -86,41 +86,42 @@ const CustomerProvider = ({ children }: IChildren) => {
     }
 
     const request = await api.post('/login', data)
+    console.log(request)
     request.status === 200 ? validateLogin() : doNotValidateLogin()
   }
 
-  const deleteCustomerStorage = ()=>{
-    navigate('../login', {replace:true})
+  const deleteCustomerStorage = () => {
+    navigate('../login', { replace: true })
     localStorage.removeItem('@appDesafioFullStackM6TOKEN')
     localStorage.removeItem('@appDesafioFullStackM6USERID')
   }
 
-  const addCount = ()=>{
-    setCount(count+1)
-  }  
+  const addCount = () => {
+    setCount(count + 1)
+  }
 
-  const updateCustomer = async (data:ICustomerUpdate)=>{
+  const updateCustomer = async (data: ICustomerUpdate) => {
     const token = JSON.parse(localStorage.getItem('@appDesafioFullStackM6TOKEN') || '{}')
-      
+
     try {
       api.defaults.headers.common.authorization = `Bearer ${token}`
-      const {data} = await api.get('/profile')
-      await api.patch(`/customer/profile`,data)
-      setCount(count+1)
+      const { data } = await api.get('/profile')
+      await api.patch(`/customer/profile`, data)
+      setCount(count + 1)
       toast.success('Dados editados com sucesso')
-    } 
+    }
     catch (error) {
       console.error(error);
     }
   }
 
-  const retriveProfile = async()=>{
+  const retriveProfile = async () => {
     const token = JSON.parse(localStorage.getItem('@appDesafioFullStackM6TOKEN') || '{}')
     try {
       api.defaults.headers.common.authorization = `Bearer ${token}`
       await api.get(`/profile`)
-      setCount(count+1)
-    } 
+      setCount(count + 1)
+    }
     catch (error) {
       console.error(error);
     }

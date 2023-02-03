@@ -3,6 +3,7 @@ import { IChildren } from "..";
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
+import { IContacts } from "../contacts";
 
 interface ICustomerContext {
   customerLogin: (data: ICustomerLogin) => void,
@@ -12,6 +13,7 @@ interface ICustomerContext {
   retriveProfile: () => void,
   customer: ICustomer,
   loading: boolean,
+  contactsCustomer: IContacts[]
 
 }
 
@@ -44,6 +46,7 @@ const CustomerProvider = ({ children }: IChildren) => {
 
   //states
   const [customer, setCustomer] = useState<ICustomer>({} as ICustomer)
+  const [contactsCustomer, setContactsCustomer] = useState<IContacts[]>([])
   const [count, setCount] = useState<number>(0)
   const [loading, setLoading] = useState<boolean>(true)
 
@@ -77,6 +80,7 @@ const CustomerProvider = ({ children }: IChildren) => {
       toast.success('Login realizado com sucesso')
       navigate('../dashboard', { replace: true })
       setCustomer(request.data.customer.data)
+      setContactsCustomer(request.data.customer.data.contacts)
       localStorage.setItem('@appDesafioFullStackM6TOKEN', JSON.stringify(request.data.customer.token))
       localStorage.setItem('@appDesafioFullStackM6USERID', JSON.stringify(request.data.customer.data.id))
     }
@@ -128,7 +132,7 @@ const CustomerProvider = ({ children }: IChildren) => {
   }
 
   return (
-    <CustomerContext.Provider value={{ customerLogin, customer }}>
+    <CustomerContext.Provider value={{ customerLogin, customer, contactsCustomer }}>
       {children}
     </CustomerContext.Provider>
   )

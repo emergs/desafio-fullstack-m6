@@ -1,25 +1,23 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
+import { CustomerContext } from "../../contexts/customer"
 import { contatos } from "../../database"
 import { GroupList, GroupListDetails, List } from "./style"
 
 const ContactList = () => {
 
-  const showContact = (id: string) => {
-    const getDetails = contatos.filter(data => data.cpf === id)
-    console.log(getDetails);
-  }
+  const { contactsCustomer } = useContext(CustomerContext)
 
   return (
     <GroupList>
       {
-        contatos?.map((elem, index) => {
-          return <List key={index}>
-            <span onClick={(e) => showContact(e.currentTarget.id)} id={elem.cpf}>{elem.nome}</span>
+        contactsCustomer?.map((elem) => {
+          return <List key={elem.id}>
+            <span>{elem.name}</span>
             <div className="contact-details">
               <GroupListDetails>
                 <li><span>Email</span><span>{elem.email}</span></li>
-                <li><span>Telefone</span><span>{elem.telefone_fixo}</span></li>
-                <li><span>Data</span><span>{elem.data_nasc}</span></li>
+                <li><span>Telefone</span><span>{elem.phone}</span></li>
+                <li><span>Data</span><span>{ }</span></li>
               </GroupListDetails>
             </div>
             <div className="buttons-group">

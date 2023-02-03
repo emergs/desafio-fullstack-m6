@@ -9,8 +9,13 @@ import { Customer } from "../../entities/customer.entity"
 const loginService = async ({ email, password }: ICustomerLogin) => {
 
   const customerRepository = AppDataSource.getRepository(Customer)
-  const customer = await customerRepository.findOneBy({
-    email: email
+  const customer = await customerRepository.findOne({
+    where: {
+      email: email
+    },
+    relations: {
+      contacts: true
+    }
   })
 
   if (!customer) {

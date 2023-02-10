@@ -1,11 +1,14 @@
 import { useContext, useState } from "react"
+import { Navigate } from "react-router-dom"
+import { boolean } from "yup"
+import { ContactsContext } from "../../contexts/contacts"
 import { CustomerContext } from "../../contexts/customer"
-import { contatos } from "../../database"
 import { GroupList, GroupListDetails, List } from "./style"
 
 const ContactList = () => {
 
   const { contactsCustomer } = useContext(CustomerContext)
+  const { deleteContactStorage, updateContact } = useContext(ContactsContext)
 
   return (
     <GroupList>
@@ -21,17 +24,12 @@ const ContactList = () => {
               </GroupListDetails>
             </div>
             <div className="buttons-group">
-              <button>Editar</button><button>Excluir</button>
+              <button onClick={() => updateContact(elem)}>Editar</button>
+              <button onClick={() => deleteContactStorage(elem.id)}>Excluir</button>
             </div>
           </List>
         })
       }
-      {/* <li>Rute Rodrigues de Oliveira</li>
-      <li>Arthur Vinicius Gonçalves de Oliveira</li>
-      <li>Rute Rodrigues de Oliveira</li>
-      <li>Arthur Vinicius Gonçalves de Oliveira</li>
-      <li>Rute Rodrigues de Oliveira</li>
-      <li>Arthur Vinicius Gonçalves de Oliveira</li> */}
     </GroupList>
   )
 }

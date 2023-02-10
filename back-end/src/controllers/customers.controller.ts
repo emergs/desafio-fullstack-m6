@@ -12,7 +12,7 @@ const createCustomerController = async (req: Request, res: Response) => {
 }
 
 const retriveCustomerController = async (req: Request, res: Response) => {
-  const id: string = req.params.id
+  const id: string = req.customer.id
   const customer = await retriveCustomerService(id)
   return res.status(200).json(instanceToPlain(customer))
 }

@@ -13,7 +13,6 @@ const retriveCustomerService = async (id: string) => {
     }
   })
 
-  console.log(customer)
 
   if (!customer) {
     throw new AppError("customer Not Found", 404);

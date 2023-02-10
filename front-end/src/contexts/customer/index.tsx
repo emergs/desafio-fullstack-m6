@@ -13,8 +13,12 @@ interface ICustomerContext {
   retriveProfile: () => void,
   customer: ICustomer,
   loading: boolean,
-  contactsCustomer: IContacts[]
-
+  contactsCustomer: IContacts[],
+  createCustomerModal: boolean,
+  openCreateCustomerModal: () => void,
+  navigate: any,
+  addCount: () => void,
+  count: number
 }
 
 export interface ICustomerLogin {
@@ -54,14 +58,15 @@ const CustomerProvider = ({ children }: IChildren) => {
 
   useEffect(() => {
 
-    const loadUser = async () => {
+    const loadCustomer = async () => {
       const token = JSON.parse(localStorage.getItem('@appDesafioFullStackM6TOKEN') || '{}')
       if (token) {
 
         try {
           api.defaults.headers.common.authorization = `Bearer ${token}`
-          const { data } = await api.get('/profile')
-          setCustomer(data)
+          const { data } = await api.get('/customers/profile')
+          setContactsCustomer(data[0].contacts)
+          setCustomer(data[0])
         }
         catch (error) {
           console.error(error);
@@ -72,7 +77,7 @@ const CustomerProvider = ({ children }: IChildren) => {
       setLoading(false)
     }
 
-    loadUser()
+    loadCustomer()
   }, [count])
 
   const customerLogin = async (data: ICustomerLogin) => {
@@ -132,7 +137,7 @@ const CustomerProvider = ({ children }: IChildren) => {
   }
 
   return (
-    <CustomerContext.Provider value={{ customerLogin, customer, contactsCustomer }}>
+    <CustomerContext.Provider value={{ customerLogin, customer, contactsCustomer, navigate, addCount, count }}>
       {children}
     </CustomerContext.Provider>
   )

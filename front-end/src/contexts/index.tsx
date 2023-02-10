@@ -1,4 +1,5 @@
 import { ReactNode } from "react"
+import ContactsProvider from "./contacts"
 import CustomerProvider from "./customer"
 
 export interface IChildren {
@@ -7,7 +8,11 @@ export interface IChildren {
 
 const Providers = ({ children }: IChildren) => {
   return (
-    <CustomerProvider>{children}</CustomerProvider>
+    <CustomerProvider>
+      <ContactsProvider>
+        {children}
+      </ContactsProvider>
+    </CustomerProvider>
   )
 }
 

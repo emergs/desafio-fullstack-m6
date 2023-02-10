@@ -7,7 +7,7 @@ import emailAlreadyRegisteredMiddleware from "../middlewares/emailAlreadyRegiste
 const customersRoutes = Router();
 
 customersRoutes.post('', emailAlreadyRegisteredMiddleware, createCustomerController);
-customersRoutes.get('/:id', validateTokenMiddleware, retriveCustomerController);
+customersRoutes.get('/profile', validateTokenMiddleware, retriveCustomerController);
 customersRoutes.patch('/:id', validateTokenMiddleware, updateCustomerController);
 customersRoutes.delete('/:id', validateTokenMiddleware, deleteCustomerController)
 

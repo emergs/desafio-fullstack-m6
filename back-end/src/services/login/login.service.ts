@@ -19,7 +19,7 @@ const loginService = async ({ email, password }: ICustomerLogin) => {
   })
 
   if (!customer) {
-    throw new AppError('Invalid Date', 403)
+    throw new AppError('Unregistered user', 403)
   }
 
   const passwordMatch = await compare(password, customer.password)

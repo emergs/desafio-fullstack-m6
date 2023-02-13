@@ -51,9 +51,10 @@ const ContactsProvider = ({ children }: IChildren) => {
 
   const createContactStorage = async (data: IContactsRequest) => {
     try {
-      console.log(data)
+      openCreateContactModal()
       api.defaults.headers.common.Authorization = `Bearer ${token}`
       await api.post(`/contacts`, data)
+      addCount()
       toast.success('Contato criado com sucesso!!')
     } catch (error) {
       toast.error('Contato não criado!!')

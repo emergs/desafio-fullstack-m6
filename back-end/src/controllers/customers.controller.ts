@@ -20,7 +20,7 @@ const retriveCustomerController = async (req: Request, res: Response) => {
 const updateCustomerController = async (req: Request, res: Response) => {
   console.log(req.customer);
 
-  const id: string = req.params.id
+  const id: string = req.customer.id
   const customer = req.body
   const customerEdit = await updateCustomerService(id, customer)
 
@@ -28,7 +28,7 @@ const updateCustomerController = async (req: Request, res: Response) => {
 }
 
 const deleteCustomerController = async (req: Request, res: Response) => {
-  const id = req.params.id
+  const id = req.customer.id
   const customer = await deleteCustomerService(id)
   return res.status(204).send()
 }

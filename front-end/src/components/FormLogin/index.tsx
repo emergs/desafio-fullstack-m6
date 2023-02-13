@@ -26,7 +26,6 @@ const FormLogin = () => {
 
   return (
     <FormStyled onSubmit={handleSubmit(customerLogin)}>
-      <button onClick={() => navigate('../dashboard', { replace: true })}>Dashboard</button>
       <Header>Login</Header>
       <DivLabelInput>
         <label>User</label>
@@ -44,7 +43,7 @@ const FormLogin = () => {
         <span>Esqueceu a senha?</span>
         <button type="submit" className="button-default">Logar</button>
       </ButtonForm>
-      <span>Não possui cadastro? Inscreva-se <button onClick={() => navigate('../register', { replace: true })}>aqui</button></span>
+      <span>Não possui cadastro? Inscreva-se <span onClick={() => navigate('../register', { replace: true })}>aqui</span></span>
     </FormStyled>
   )
 }

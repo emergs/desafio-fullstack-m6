@@ -10,11 +10,7 @@ const deleteCustomerService = async (id: string) => {
     throw new AppError("customer Not Found", 404);
   }
 
-  if (customer.isActive === false) {
-    throw new AppError('customer already isActive = false');
-  }
-
-  customer.isActive = false
+  customerRepository.delete(id)
 
   await customerRepository.save(customer)
 

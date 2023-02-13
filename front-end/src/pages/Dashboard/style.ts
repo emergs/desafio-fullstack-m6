@@ -30,9 +30,10 @@ const ContentDashboard = styled.div`
   padding:20px;
   padding-bottom: 50px;
 
-  .exit{
+  .settings-profile{
     display: flex;
     justify-content: flex-end;
+    gap:5px;
   }
 `
 

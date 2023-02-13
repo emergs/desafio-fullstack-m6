@@ -7,12 +7,10 @@ import Providers from './contexts';
 function App() {
 
   return (
-    <BrowserRouter>
-      <Providers>
-        <ToastContainer />
-        <AppRoutes />
-      </Providers>
-    </BrowserRouter>
+    <Providers>
+      <ToastContainer />
+      <AppRoutes />
+    </Providers>
   )
 }
 

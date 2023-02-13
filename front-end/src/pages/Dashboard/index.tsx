@@ -9,18 +9,31 @@ import UpdateContact from "../../components/UpdateContact"
 import { ContactsContext } from "../../contexts/contacts"
 import { CustomerContext } from "../../contexts/customer"
 import { ContentDashboard, DashboardStyle } from "./style"
+import Modal from "react-modal"
+import { Button } from "../../components/Button"
 
 const DashBoard = () => {
 
   const { openCreateContactModal } = useContext(ContactsContext)
-  const { customer, contactsCustomer } = useContext(CustomerContext)
+  const { customer, loading } = useContext(CustomerContext)
 
   const navigate = useNavigate()
+
+  const exitApp = () => {
+    navigate('/login', { replace: true })
+    localStorage.removeItem('@appDesafioFullStackM6TOKEN')
+    localStorage.removeItem('@appDesafioFullStackM6USERID')
+  }
+
+  if (loading) return <h1>Carregando...</h1>
 
   return (
     customer ?
       <ContentDashboard>
-        <span className="exit" onClick={() => navigate('../login', { replace: true })}>Sair</span>
+        <div className="settings-profile">
+          <Button onClick={() => navigate('../profile', { replace: true })}>Perfil</Button>
+          <Button onClick={() => exitApp()}>Sair</Button>
+        </div>
         <DashboardStyle>
           <Header>MY APP</Header>
           <InfoProfile />

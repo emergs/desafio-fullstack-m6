@@ -43,11 +43,11 @@ const GroupListDetails = styled.ul`
     width: 75%;
   }
 
-  li:last-child{
+  /* li:last-child{
     display: flex;
     justify-content: flex-end;
     gap: 10px;
-  }
+  } */
 
   li button{
     width: 30%;

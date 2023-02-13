@@ -6,19 +6,21 @@ import api from "../../services/api";
 import { IContacts } from "../contacts";
 
 interface ICustomerContext {
+  addCount: () => void,
+  auth: boolean,
+  contactsCustomer: IContacts[],
+  count: number
+  createCustomerModal: boolean,
+  createCustomerStorage: (data: ICustomer) => void,
+  customer: ICustomer,
   customerLogin: (data: ICustomerLogin) => void,
   deleteCustomerStorage: () => void,
-  loadUser: () => void,
-  updateCustomer: () => void,
-  retriveProfile: () => void,
-  customer: ICustomer,
   loading: boolean,
-  contactsCustomer: IContacts[],
-  createCustomerModal: boolean,
-  openCreateCustomerModal: () => void,
+  loadUser: () => void,
   navigate: any,
-  addCount: () => void,
-  count: number
+  openCreateCustomerModal: () => void,
+  retriveProfile: () => void,
+  updateCustomerStorage: (data: any) => void,
 }
 
 export interface ICustomerLogin {
@@ -26,7 +28,7 @@ export interface ICustomerLogin {
   password: string,
 }
 
-interface ICustomer {
+export interface ICustomer {
   id: string,
   name: string,
   email: string,
@@ -35,7 +37,12 @@ interface ICustomer {
   createdAt: Date
 }
 
-interface ICustomerUpdate {
+export interface ICustomerUpdate {
+  name: string,
+  phone: string,
+}
+
+export interface ICustomerRegister {
   name: string,
   email: string,
   password: string,
@@ -48,7 +55,6 @@ export const CustomerContext = createContext<ICustomerContext>({} as ICustomerCo
 
 const CustomerProvider = ({ children }: IChildren) => {
 
-  //states
   const [customer, setCustomer] = useState<ICustomer>({} as ICustomer)
   const [contactsCustomer, setContactsCustomer] = useState<IContacts[]>([])
   const [count, setCount] = useState<number>(0)
@@ -82,12 +88,12 @@ const CustomerProvider = ({ children }: IChildren) => {
 
   const customerLogin = async (data: ICustomerLogin) => {
     function validateLogin() {
-      toast.success('Login realizado com sucesso')
-      navigate('../dashboard', { replace: true })
       setCustomer(request.data.customer.data)
       setContactsCustomer(request.data.customer.data.contacts)
       localStorage.setItem('@appDesafioFullStackM6TOKEN', JSON.stringify(request.data.customer.token))
       localStorage.setItem('@appDesafioFullStackM6USERID', JSON.stringify(request.data.customer.data.id))
+      toast.success('Login realizado com sucesso')
+      navigate('/dashboard', { replace: true })
     }
 
     function doNotValidateLogin() {
@@ -95,27 +101,47 @@ const CustomerProvider = ({ children }: IChildren) => {
     }
 
     const request = await api.post('/login', data)
-    console.log(request.data)
+    console.log(request.status)
     request.status === 200 ? validateLogin() : doNotValidateLogin()
   }
 
-  const deleteCustomerStorage = () => {
-    navigate('../login', { replace: true })
-    localStorage.removeItem('@appDesafioFullStackM6TOKEN')
-    localStorage.removeItem('@appDesafioFullStackM6USERID')
+  const createCustomerStorage = async (data: ICustomer) => {
+    try {
+      const req = await api.post('/customers', data)
+      setCustomer(req.data)
+      setCount(count + 1)
+      toast.success('Usuário criado com sucesso!')
+      navigate('/login', { replace: true })
+    }
+    catch (error) {
+      console.error(error);
+    }
   }
 
+  const deleteCustomerStorage = async () => {
+    const token = JSON.parse(localStorage.getItem('@appDesafioFullStackM6TOKEN') || '{}')
+    try {
+      api.defaults.headers.common.authorization = `Bearer ${token}`
+      await api.delete(`/customers`)
+      setCount(count + 1)
+      toast.success('Usuário deletado com sucesso')
+      navigate('../login', { replace: true })
+      localStorage.removeItem('@appDesafioFullStackM6TOKEN')
+      localStorage.removeItem('@appDesafioFullStackM6USERID')
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
   const addCount = () => {
     setCount(count + 1)
   }
 
-  const updateCustomer = async (data: ICustomerUpdate) => {
+  const updateCustomerStorage = async (data: any) => {
     const token = JSON.parse(localStorage.getItem('@appDesafioFullStackM6TOKEN') || '{}')
-
     try {
       api.defaults.headers.common.authorization = `Bearer ${token}`
-      const { data } = await api.get('/profile')
-      await api.patch(`/customer/profile`, data)
+      await api.patch(`/customers`, data)
       setCount(count + 1)
       toast.success('Dados editados com sucesso')
     }
@@ -137,7 +163,7 @@ const CustomerProvider = ({ children }: IChildren) => {
   }
 
   return (
-    <CustomerContext.Provider value={{ customerLogin, customer, contactsCustomer, navigate, addCount, count }}>
+    <CustomerContext.Provider value={{ customerLogin, customer, contactsCustomer, navigate, addCount, count, updateCustomerStorage, deleteCustomerStorage, createCustomerStorage, loading }}>
       {children}
     </CustomerContext.Provider>
   )

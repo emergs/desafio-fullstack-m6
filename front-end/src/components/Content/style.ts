@@ -12,4 +12,48 @@ const ContentStyle = styled.main`
   max-width: 600px;
 `
 
-export { ContentStyle }
+const ProfileStyle = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
+
+  Button{
+    width: 100px;
+  }
+
+  .div-btn-exit{
+    height: 10%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .div-btn-exit Button{
+    width: 50px;
+  }
+
+  ul{
+    background-color: var(--color5);
+    color: var(--color3);
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    gap:2rem;
+    padding: 1rem;
+  }
+
+  ul li span:first-child{
+    font-weight: bold;
+    margin-right: 0.5rem;
+  }
+
+  .div-btn-group{
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+`
+
+export { ContentStyle, ProfileStyle }

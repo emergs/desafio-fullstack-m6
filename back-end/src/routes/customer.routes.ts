@@ -8,8 +8,8 @@ const customersRoutes = Router();
 
 customersRoutes.post('', emailAlreadyRegisteredMiddleware, createCustomerController);
 customersRoutes.get('/profile', validateTokenMiddleware, retriveCustomerController);
-customersRoutes.patch('/:id', validateTokenMiddleware, updateCustomerController);
-customersRoutes.delete('/:id', validateTokenMiddleware, deleteCustomerController)
+customersRoutes.patch('', validateTokenMiddleware, updateCustomerController);
+customersRoutes.delete('', validateTokenMiddleware, deleteCustomerController)
 
 
 export default customersRoutes;

@@ -4,6 +4,7 @@ import Modal from "react-modal"
 import { ContactsContext, IContactsRequest } from "../../contexts/contacts";
 import { CustomerContext } from "../../contexts/customer";
 import { modalStyles } from "../../styles/global";
+import { Button } from "../Button";
 import { FormStyled } from "../Form/style";
 import Header from "../Header";
 
@@ -13,10 +14,8 @@ const UpdateContact = () => {
   const { updateContactModal, openUpdateContactModal, contactRecovered, updateContactStorage } = useContext(ContactsContext)
 
   const onSubmit = (data: IContactsRequest) => {
-    console.log(data);
-    console.log(contactRecovered.id)
     updateContactStorage(data, contactRecovered.id)
-
+    openUpdateContactModal()
   }
 
   return (
@@ -30,9 +29,9 @@ const UpdateContact = () => {
       <FormStyled onSubmit={handleSubmit(onSubmit)}>
         <div className="header-register">
           <Header>Editar Contato</Header>
-          <span
-            onClick={(e) => console.log('voltar')}>Voltar
-          </span>
+          <Button
+            onClick={() => openUpdateContactModal()}>Voltar
+          </Button>
         </div>
         <div className="div-label-input">
           <input defaultValue={contactRecovered?.name} {...register("name",)} />

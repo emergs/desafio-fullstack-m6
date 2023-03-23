@@ -11,3 +11,8 @@ export const mockedCustomerLogin: ICustomerLogin = {
   email: "alberto@mail.com",
   password: "1234"
 }
+
+export const mockedCustomerLoginUnregistered: ICustomerLogin = {
+  email: "carlos@mail.com",
+  password: "1234"
+}

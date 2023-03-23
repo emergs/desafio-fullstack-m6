@@ -5,10 +5,9 @@ import { AppError } from "../errors/appError";
 
 const validateTokenMiddleware = async (req: Request, res: Response, next: Function) => {
   let token = req.headers.authorization
-  console.log(token)
 
   if (!token) {
-    throw new AppError('Invalid Token', 401);
+    throw new AppError('Invalid Token', 403);
   }
 
   else {

@@ -5,7 +5,7 @@ import { ICustomerUpdate } from "../../interfaces/customer.interface";
 import { Customer } from "../../entities/customer.entity";
 
 const updateCustomerService = async (id: string, user: ICustomerUpdate) => {
-  const { name, email, password, phone } = user
+  const { name, password, phone } = user
   const customerRepository = AppDataSource.getRepository(Customer);
   const customerEdited = await customerRepository.findOneBy({ id })
 
@@ -15,7 +15,6 @@ const updateCustomerService = async (id: string, user: ICustomerUpdate) => {
 
   await customerRepository.update(id, {
     name: name ? name : customerEdited.name,
-    email: email ? email : customerEdited.email,
     phone: phone ? phone : customerEdited.phone,
     password: password ? await hash(password, 10) : customerEdited.password
   })

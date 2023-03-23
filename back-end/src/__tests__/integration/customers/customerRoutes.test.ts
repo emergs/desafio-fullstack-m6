@@ -2,7 +2,7 @@ import { DataSource } from "typeorm";
 import AppDataSource from "../../../data-source";
 import request from "supertest"
 import app from "../../../app";
-import { mockedCustomer, mockedCustomerLogin } from "../../mocks"
+import { mockedCustomer, mockedCustomerLogin, mockedCustomerLoginUnregistered } from "../../mocks"
 
 
 describe("/customers", () => {
@@ -20,6 +20,14 @@ describe("/customers", () => {
     await connection.destroy()
   })
 
+  test("POST /login -  do not login of unregistered seller", async () => {
+    const response = await request(app).post('/login').send(mockedCustomerLoginUnregistered)
+
+    expect(response.body).toHaveProperty("message")
+    expect(response.status).toBe(403)
+
+  })
+
   test("POST /customers -  Must be able to create a customer", async () => {
     const response = await request(app).post('/customers').send(mockedCustomer)
 
@@ -35,6 +43,14 @@ describe("/customers", () => {
     expect(response.status).toBe(201)
   })
 
+  test("POST /login -  must log in as a registered seller", async () => {
+    const response = await request(app).post('/login').send(mockedCustomerLogin)
+
+    expect(response.body).toHaveProperty("token")
+    expect(response.status).toBe(200)
+
+  })
+
   test("POST /customers -  should not be able to create a customer that already exists", async () => {
     const response = await request(app).post('/customers').send(mockedCustomer)
 
@@ -43,15 +59,91 @@ describe("/customers", () => {
 
   })
 
-  test("GET /customers -  Must be able to list customers", async () => {
+  test("GET /customers -  must recover the data of the logged in seller", async () => {
     await request(app).post('/customers').send(mockedCustomer)
     const loginResponse = await request(app).post("/login").send(mockedCustomerLogin);
-    const response = await request(app).get('/customers').set("Authorization", `Bearer ${loginResponse.body.token}`)
+    const response = await request(app).get('/customers/profile').set("Authorization", `Bearer ${loginResponse.body.token}`)
 
-    expect(response.body).toHaveLength(2)
+    expect(response.body[0]).toHaveProperty("id")
+    expect(response.status).toBe(200)
 
   })
-}
+
+  test("GET /customers -  must not display seller data without authentication", async () => {
+    const response = await request(app).get('/customers/profile')
+
+    expect(response.body).toHaveProperty("message")
+    expect(response.status).toBe(403)
+
+  })
+
+  test("PATCH /customers/profile -  should be able to update customer", async () => {
+    const newValues = {
+      name: "Joana Brito",
+      email: "joanabrito@mail.com",
+    }
+
+    const loginResponse = await request(app).post("/login").send(mockedCustomerLogin);
+    const response = await request(app).patch(`/customers/profile`).set("Authorization", `Bearer ${loginResponse.body.token}`).send(newValues)
+
+    const updated = await request(app).get("/customers/profile").set("Authorization", `Bearer ${loginResponse.body.token}`)
+
+    expect(response.status).toBe(200)
+    expect(updated.body[0].name).toEqual("Joana Brito")
+    expect(updated.body[0].email).not.toEqual("joanabrito@mail.com")
+    expect(updated.body[0].email).toEqual(mockedCustomerLogin.email)
+    expect(updated.body[0]).not.toHaveProperty("password")
+  })
+
+  test("PATCH /customers/profile -  should be able to update customer", async () => {
+    const newValues = {
+      name: "Joana Brito",
+      email: "joanabrito@mail.com",
+    }
+
+    const response = await request(app).patch(`/customers/profile`).send(newValues)
+    console.log(response.body);
+
+    expect(response.body).toHaveProperty('message')
+    expect(response.status).toBe(403)
+
+  })
+
+  test("DELETE /customers/profile -  must allow deleting a customer", async () => {
+    const adminLoginResponse = await request(app).post("/login").send(mockedCustomerLogin);
+    const response = await request(app).delete('/customers/profile').set("Authorization", `Bearer ${adminLoginResponse.body.token}`)
+    expect(response.body).toEqual({})
+    expect(response.status).toBe(204)
+
+  })
+
+  test("DELETE /customers/profile -  must not delete a seller without authentication", async () => {
+    const response = await request(app).delete('/customers/profile')
+
+    expect(response.body).toHaveProperty('message')
+    expect(response.body.message).toEqual("Invalid Token")
+    expect(response.status).toBe(403)
+
+  })
+
+  // test("PATCH /customers/profile -  should be able to update user", async () => {
+  //   const newValues = { name: "Joana Brito", email: "joanabrito@mail.com" }
+
+  //   const admingLoginResponse = await request(app).post("/login").send(mockedAdminLogin);
+  //   const token = `Bearer ${admingLoginResponse.body.token}`
+
+  //   const userTobeUpdateRequest = await request(app).get("/customers").set("Authorization", token)
+  //   const userTobeUpdateId = userTobeUpdateRequest.body[0].id
+
+  //   const response = await request(app).patch(`/customers/${userTobeUpdateId}`).set("Authorization", token).send(newValues)
+
+  //   const userUpdated = await request(app).get("/customers").set("Authorization", token)
+
+  //   expect(response.status).toBe(200)
+  //   expect(userUpdated.body[0].name).toEqual("Joana Brito")
+  //   expect(userUpdated.body[0]).not.toHaveProperty("password")
+  // })
+})
 //   test("GET /customers -  should not be able to list customers without authentication", async () => {
 //     const response = await request(app).get('/customers')
 

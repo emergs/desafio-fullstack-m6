@@ -10,7 +10,6 @@ const emailAlreadyRegisteredMiddleware = async (req: Request, res: Response, nex
   const data = await customerRepository.find()
 
   const customer = data.find(customer => customer.email === email)
-  console.log(customer);
 
   if (customer) {
     throw new AppError('Email already exists', 400)

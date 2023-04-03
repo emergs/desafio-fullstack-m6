@@ -2,7 +2,7 @@ import { DataSource } from "typeorm";
 import AppDataSource from "../../../data-source";
 import request from "supertest"
 import app from "../../../app";
-import { mockedCustomer, mockedCustomerLogin, mockedCustomerLoginUnregistered } from "../../mocks"
+import { mockedContact, mockedCustomer, mockedCustomerLogin, mockedCustomerLoginUnregistered } from "../../mocks"
 
 
 describe("/customers", () => {
@@ -125,6 +125,104 @@ describe("/customers", () => {
     expect(response.status).toBe(403)
 
   })
+})
+
+describe("/contacts", () => {
+  let connection: DataSource;
+
+  beforeAll(async () => {
+    await AppDataSource.initialize().then((res) => {
+      connection = res
+    }).catch((err) => {
+      console.error("Error during Data Source initialization", err)
+    })
+  })
+
+  afterAll(async () => {
+    await connection.destroy()
+  })
+
+  test("POST /contacts - must register a new contact", async () => {
+    const response = await request(app).post('/customers').send(mockedCustomer)
+    const login = await request(app).post("/login").send(mockedCustomerLogin)
+    const newContact = await request(app).post("/contacts").set("Authorization", `Bearer ${login.body.token}`).send(mockedContact)
+
+    expect(newContact.body).toHaveProperty("id")
+    expect(newContact.body).toHaveProperty("name")
+    expect(newContact.body).toHaveProperty("email")
+    expect(newContact.body).toHaveProperty("phone")
+    expect(newContact.body).toHaveProperty("createdAt")
+    expect(newContact.body).toHaveProperty("customer")
+    expect(newContact.body.name).toBe("Fernanda")
+    expect(newContact.body.email).toBe("fernanda@mail.com")
+    expect(newContact.body.phone).toBe("4391876542")
+    expect(newContact.body.customer).toBe(response.body.id)
+    expect(newContact.status).toBe(201)
+  })
+
+  test("POST /contacts - must not register a new contact without authentication", async () => {
+    const newContact = await request(app).post("/contacts").send(mockedContact)
+
+    expect(newContact.body).toHaveProperty("message")
+    expect(newContact.status).toBe(403)
+  })
+
+  test("POST /contacts - must not register an existing contact", async () => {
+    const login = await request(app).post("/login").send(mockedCustomerLogin)
+    const newContact = await request(app).post("/contacts").set("Authorization", `Bearer ${login.body.token}`).send(mockedContact)
+
+    expect(newContact.body).toHaveProperty("message")
+
+  })
+
+  test("GET /contacts - should show all existing contacts", async () => {
+    const login = await request(app).post("/login").send(mockedCustomerLogin)
+    const newContact = await request(app).post("/contacts").set("Authorization", `Bearer ${login.body.token}`).send(mockedContact)
+
+    expect(newContact.body).toHaveProperty("message")
+
+  })
+
+  test("GET /contacts/:id - must show a certain contact", async () => {
+    const login = await request(app).post("/login").send(mockedCustomerLogin)
+    const newContact = await request(app).post("/contacts").set("Authorization", `Bearer ${login.body.token}`).send(mockedContact)
+
+    expect(newContact.body).toHaveProperty("message")
+
+  })
+
+  test("PATCH /contacts/:id - must edit a contact", async () => {
+    const login = await request(app).post("/login").send(mockedCustomerLogin)
+    const newContact = await request(app).post("/contacts").set("Authorization", `Bearer ${login.body.token}`).send(mockedContact)
+
+    expect(newContact.body).toHaveProperty("message")
+
+  })
+
+  test("PATCH /contacts/:id - must edit a contact without authentication", async () => {
+    const login = await request(app).post("/login").send(mockedCustomerLogin)
+    const newContact = await request(app).post("/contacts").set("Authorization", `Bearer ${login.body.token}`).send(mockedContact)
+
+    expect(newContact.body).toHaveProperty("message")
+
+  })
+
+  test("DELETE /contacts/:id - must delete a contact", async () => {
+    const login = await request(app).post("/login").send(mockedCustomerLogin)
+    const newContact = await request(app).post("/contacts").set("Authorization", `Bearer ${login.body.token}`).send(mockedContact)
+
+    expect(newContact.body).toHaveProperty("message")
+
+  })
+
+  test("DELETE /contacts/:id - must delete a contact without authentication", async () => {
+    const login = await request(app).post("/login").send(mockedCustomerLogin)
+    const newContact = await request(app).post("/contacts").set("Authorization", `Bearer ${login.body.token}`).send(mockedContact)
+
+    expect(newContact.body).toHaveProperty("message")
+
+  })
+
 
   // test("PATCH /customers/profile -  should be able to update user", async () => {
   //   const newValues = { name: "Joana Brito", email: "joanabrito@mail.com" }

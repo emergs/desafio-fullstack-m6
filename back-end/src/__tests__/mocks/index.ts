@@ -1,3 +1,4 @@
+import { IContactRequest } from "../../interfaces/contacts.interface";
 import { ICustomer, ICustomerLogin, ICustomerRequest } from "../../interfaces/customer.interface";
 
 export const mockedCustomer: ICustomerRequest = {
@@ -15,4 +16,10 @@ export const mockedCustomerLogin: ICustomerLogin = {
 export const mockedCustomerLoginUnregistered: ICustomerLogin = {
   email: "carlos@mail.com",
   password: "1234"
+}
+
+export const mockedContact: IContactRequest = {
+  name: "Fernanda",
+  email: "fernanda@mail.com",
+  phone: "4391876542"
 }

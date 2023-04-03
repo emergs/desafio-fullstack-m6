@@ -87,22 +87,15 @@ const CustomerProvider = ({ children }: IChildren) => {
   }, [count])
 
   const customerLogin = async (data: ICustomerLogin) => {
-    function validateLogin() {
-      setCustomer(request.data.customer.data)
-      setContactsCustomer(request.data.customer.data.contacts)
-      localStorage.setItem('@appDesafioFullStackM6TOKEN', JSON.stringify(request.data.customer.token))
-      localStorage.setItem('@appDesafioFullStackM6USERID', JSON.stringify(request.data.customer.data.id))
+    try {
+      const request = await api.post('/login', data)
+      localStorage.setItem('@appDesafioFullStackM6TOKEN', JSON.stringify(request.data.token))
       toast.success('Login realizado com sucesso')
       navigate('/dashboard', { replace: true })
     }
-
-    function doNotValidateLogin() {
+    catch (error) {
       toast.error('Dados incorretos')
     }
-
-    const request = await api.post('/login', data)
-    console.log(request.status)
-    request.status === 200 ? validateLogin() : doNotValidateLogin()
   }
 
   const createCustomerStorage = async (data: ICustomer) => {

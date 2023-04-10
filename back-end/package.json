@@ -39,9 +39,8 @@
     "build": "tsc",
     "typeorm": "typeorm-ts-node-commonjs",
     "test": "NODE_ENV=test jest",
-    "migration:generate": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:generate -d src/modules/config/ormconfig.ts",
-    "migration:up": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:run -d src/modules/config/ormconfig.ts",
-    "migration:down": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:revert -d src/modules/config/ormconfig.ts"
+    "migration:generate": "typeorm-ts-node-commonjs migration:generate src/migrations/myMigation -d src/data-source.ts",
+    "migration:run": "typeorm-ts-node-commonjs migration:run -d src/data-source.ts"
   },
   "keywords": [],
   "author": "",

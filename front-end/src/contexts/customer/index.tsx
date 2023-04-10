@@ -115,7 +115,7 @@ const CustomerProvider = ({ children }: IChildren) => {
     const token = JSON.parse(localStorage.getItem('@appDesafioFullStackM6TOKEN') || '{}')
     try {
       api.defaults.headers.common.authorization = `Bearer ${token}`
-      await api.delete(`/customers`)
+      await api.delete(`/customers/profile`)
       setCount(count + 1)
       toast.success('Usuário deletado com sucesso')
       navigate('../login', { replace: true })
@@ -134,7 +134,7 @@ const CustomerProvider = ({ children }: IChildren) => {
     const token = JSON.parse(localStorage.getItem('@appDesafioFullStackM6TOKEN') || '{}')
     try {
       api.defaults.headers.common.authorization = `Bearer ${token}`
-      await api.patch(`/customers`, data)
+      await api.patch(`/customers/profile`, data)
       setCount(count + 1)
       toast.success('Dados editados com sucesso')
     }
@@ -147,7 +147,7 @@ const CustomerProvider = ({ children }: IChildren) => {
     const token = JSON.parse(localStorage.getItem('@appDesafioFullStackM6TOKEN') || '{}')
     try {
       api.defaults.headers.common.authorization = `Bearer ${token}`
-      await api.get(`/profile`)
+      await api.get(`customers/profile`)
       setCount(count + 1)
     }
     catch (error) {

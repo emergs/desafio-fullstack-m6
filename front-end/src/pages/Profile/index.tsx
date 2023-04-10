@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import Content from "../../components/Content"
 import { CustomerContext } from "../../contexts/customer"
 import Modal from "react-modal"
@@ -8,6 +8,7 @@ import Header from "../../components/Header"
 import { useForm } from "react-hook-form"
 import { Button } from "../../components/Button"
 import { ProfileStyle } from "../../components/Content/style"
+import { ContactsContext } from "../../contexts/contacts"
 
 const Profile = () => {
 
@@ -32,8 +33,8 @@ const Profile = () => {
     checkDelete()
   }
 
-  const updateCustomerAndCloseModal = () => {
-    updateCustomerStorage()
+  const updateCustomerAndCloseModal = (data: any) => {
+    updateCustomerStorage(data)
     updateCustomer()
   }
 

@@ -9,7 +9,7 @@ import { FormStyled } from "../Form/style";
 import Header from "../Header";
 
 const UpdateContact = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm<IContactsRequest>();
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<IContactsRequest>();
 
   const { updateContactModal, openUpdateContactModal, contactRecovered, updateContactStorage } = useContext(ContactsContext)
 
@@ -17,6 +17,10 @@ const UpdateContact = () => {
     updateContactStorage(data, contactRecovered.id)
     openUpdateContactModal()
   }
+
+  useEffect(() => {
+    reset()
+  }, [openUpdateContactModal])
 
   return (
     <Modal

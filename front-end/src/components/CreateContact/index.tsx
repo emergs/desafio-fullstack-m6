@@ -1,5 +1,5 @@
 import Modal from "react-modal";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CustomerContext } from "../../contexts/customer";
 import { FormStyled } from "../Form/style"
 import Header from "../Header";
@@ -13,7 +13,11 @@ const CreateContact = () => {
   const { navigate } = useContext(CustomerContext)
   const { createContactModal, openCreateContactModal, createContactStorage } = useContext(ContactsContext)
 
-  const { register, handleSubmit, formState: { errors } } = useForm<IContacts>()
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<IContacts>()
+
+  useEffect(() => {
+    reset()
+  }, [openCreateContactModal])
 
   return (
     <Modal

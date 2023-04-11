@@ -7,7 +7,7 @@ import { CustomerContext } from "../customer";
 interface IContactsContext {
   createContactStorage: (data: IContactsRequest) => void,
   deleteContactStorage: (id: string) => void,
-  getIdContact: (id: string) => void,
+  //getIdContact: (id: string) => void,
   openCreateContactModal: () => void,
   openUpdateContactModal: () => void,
   updateContactStorage: (data: any, id: string) => void,

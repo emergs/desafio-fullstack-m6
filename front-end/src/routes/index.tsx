@@ -8,12 +8,12 @@ import { CustomerContext } from "../contexts/customer";
 
 const AppRoutes = () => {
 
-  const { auth } = useContext(CustomerContext)
+  // const { auth } = useContext(CustomerContext)
 
-  useEffect(() => {
-    const isAuth = localStorage.getItem('@appDesafioFullStackM6TOKEN')
-    console.log(isAuth)
-  }, [])
+  // useEffect(() => {
+  //   const isAuth = localStorage.getItem('@appDesafioFullStackM6TOKEN')
+  //   console.log(isAuth)
+  // }, [])
 
   return (
     <Routes>

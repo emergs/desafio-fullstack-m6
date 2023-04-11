@@ -7,18 +7,18 @@ import { IContacts } from "../contacts";
 
 interface ICustomerContext {
   addCount: () => void,
-  auth: boolean,
+  //auth: boolean,
   contactsCustomer: IContacts[],
   count: number
-  createCustomerModal: boolean,
+  //createCustomerModal: boolean,
   createCustomerStorage: (data: ICustomer) => void,
   customer: ICustomer,
   customerLogin: (data: ICustomerLogin) => void,
   deleteCustomerStorage: () => void,
   loading: boolean,
-  loadUser: () => void,
+  //loadUser: () => void,
   navigate: any,
-  openCreateCustomerModal: () => void,
+  //openCreateCustomerModal: () => void,
   retriveProfile: () => void,
   updateCustomerStorage: (data: any) => void,
 }
@@ -156,7 +156,7 @@ const CustomerProvider = ({ children }: IChildren) => {
   }
 
   return (
-    <CustomerContext.Provider value={{ customerLogin, customer, contactsCustomer, navigate, addCount, count, updateCustomerStorage, deleteCustomerStorage, createCustomerStorage, loading }}>
+    <CustomerContext.Provider value={{ customerLogin, customer, contactsCustomer, navigate, addCount, count, updateCustomerStorage, deleteCustomerStorage, createCustomerStorage, loading, retriveProfile }}>
       {children}
     </CustomerContext.Provider>
   )
